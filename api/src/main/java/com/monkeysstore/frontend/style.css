@@ -1,0 +1,169 @@
+/* Variáveis de Cores inspiradas no seu mockup */
+:root {
+    --bg-color: #050505;
+    --border-color: #1a1a2e;
+    --brand-purple: #9b59b6;
+    --price-green: #00ff00;
+    --btn-red: #ff0000;
+    --text-white: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+    font-family: 'Bebas Neue', sans-serif; /* Substitua por uma fonte condensada se preferir */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 40px;
+    border-bottom: 2px solid var(--border-color);
+    position: relative;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    width: 90px;
+    border-radius: 50%;
+}
+
+.brand-name {
+    margin: 5px 0 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.brand-name span {
+    color: var(--price-green);
+    font-size: 10px;
+}
+
+.header-icons {
+    position: absolute;
+    right: 40px;
+    font-size: 24px;
+    color: var(--brand-purple);
+    display: flex;
+    gap: 20px;
+}
+
+/* Layout Principal */
+.main-container {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    border-right: 2px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.category-list li.active {
+    background-color: var(--brand-purple);
+}
+
+.category-list li:hover:not(.active) {
+    background-color: #111;
+}
+
+/* Vitrine (Main Content) */
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
+.product-grid {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* Cartão do Produto */
+.card {
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-wrapper {
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card-info {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.price {
+    color: var(--price-green);
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.btn-cart {
+    background-color: var(--btn-red);
+    color: var(--text-white);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+}
+
+.btn-cart:hover {
+    transform: scale(1.05);
+}
