@@ -2,17 +2,18 @@ package com.monkeysstore.api.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
 
 @Entity
 @DiscriminatorValue("CLIENTE")
 public class Cliente extends Usuario {
     
-    @Column(length = 14)
+    // Atributos exclusivos do comprador
     private String cpf;
-    
-    @Column(length = 255)
-    private String endereco;
-    
-    // Construtores, Getters e Setters específicos do Cliente omitidos
+    private String telefone;
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkeys Store - Ativar Conta</title>
+    <!-- Se você tiver um arquivo CSS padrão da loja, pode referenciá-lo aqui -->
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; max-width: 400px; }
+        h2 { color: #333; margin-bottom: 10px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; font-size: 24px; text-align: center; letter-spacing: 5px; }
+        button { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Falta pouco!</h2>
+        <p>Enviamos um código de 6 dígitos para o seu e-mail. Digite-o abaixo para ativar sua conta na Monkeys Store.</p>
+        
+        <form id="form-verificacao">
+            <input type="text" id="codigo" maxlength="6" placeholder="000000" required autocomplete="off">
+            <button type="submit">Verificar Código</button>
+        </form>
+    </div>
+
+    <!-- Nosso script que vai conversar com o Java -->
+    <script src="verificacao.js"></script>
+</body>
+</html>

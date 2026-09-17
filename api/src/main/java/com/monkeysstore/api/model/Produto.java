@@ -1,6 +1,7 @@
 package com.monkeysstore.api.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produtos")
@@ -13,28 +14,64 @@ public class Produto {
     @Column(nullable = false)
     private String nome;
 
-    private String marca;
-    private String tipo;
-    private Double preco;
-    
     @Column(columnDefinition = "TEXT")
-    private String imagemUrl;
+    private String descricao;
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    @Column(nullable = false)
+    private BigDecimal preco;
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    @Column(nullable = false)
+    private Integer quantidadeEmEstoque;
 
-    public String getMarca() { return marca; }
-    public void setMarca(String marca) { this.marca = marca; }
+    @Column(name = "imagem_url")
+    private String imagemUrl; // Aqui guardaremos o link da foto do produto
 
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    // Getters e Setters
+    public Integer getId() {
+        return id;
+    }
 
-    public Double getPreco() { return preco; }
-    public void setPreco(Double preco) { this.preco = preco; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public String getImagemUrl() { return imagemUrl; }
-    public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public Integer getQuantidadeEmEstoque() {
+        return quantidadeEmEstoque;
+    }
+
+    public void setQuantidadeEmEstoque(Integer quantidadeEmEstoque) {
+        this.quantidadeEmEstoque = quantidadeEmEstoque;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
 }
