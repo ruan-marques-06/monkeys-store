@@ -14,10 +14,9 @@
     <header class="header">
         <div class="logo-container">
             <img src="img/LogoMonkeysHome - Editado.png" alt="Monkeys Store" class="logo">
-            <!--<h1 class="brand-name">MONKEYS <br><span>STORE</span></h1>-->
         </div>
         <div class="header-icons">
-            <i class="fas fa-shopping-cart cart-icon"></i>
+            <i class="fas fa-shopping-cart cart-icon" onclick="abrirSidebar()" style="cursor: pointer;"></i>
             <i class="fas fa-user user-icon"></i>
         </div>
     </header>
@@ -42,6 +41,22 @@
             </div>
         </main>
     </div>
+
+    <!-- Carrinho em Barra Lateral -->
+    <div id="carrinho-sidebar" class="carrinho-sidebar">
+        <div class="carrinho-header">
+            <h2>MEU CARRINHO</h2>
+            <button class="fechar-btn" onclick="fecharCarrinhos()">X</button>
+        </div>
+        <div id="itens-sidebar" class="carrinho-lista"></div>
+        <div class="carrinho-footer">
+            <h3>TOTAL: <span id="total-sidebar" style="color: var(--price-green);">R$ 0,00</span></h3>
+            <button class="btn-cart" style="width: 100%; margin-top: 10px;">FINALIZAR ENCOMENDA</button>
+        </div>
+    </div>
+
+    <!-- Fundo escuro para a Sidebar -->
+    <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinhos()"></div>
 
     <!-- Script de automação -->
     <script src="app.js"></script>

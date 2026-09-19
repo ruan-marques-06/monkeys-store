@@ -1,4 +1,4 @@
-/* Variáveis de Cores inspiradas no seu mockup */
+/* Variáveis de Cores */
 :root {
     --bg-color: #050505;
     --border-color: #1a1a2e;
@@ -11,7 +11,7 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-white);
-    font-family: 'Bebas Neue', sans-serif; /* Substitua por uma fonte condensada se preferir */
+    font-family: 'Bebas Neue', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -38,18 +38,6 @@ body {
     border-radius: 50%;
 }
 
-.brand-name {
-    margin: 5px 0 0;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.brand-name span {
-    color: var(--price-green);
-    font-size: 10px;
-}
-
 .header-icons {
     position: absolute;
     right: 40px;
@@ -65,7 +53,7 @@ body {
     flex: 1;
 }
 
-/* Sidebar */
+/* Menu Lateral */
 .sidebar {
     width: 200px;
     border-right: 2px solid var(--border-color);
@@ -166,4 +154,84 @@ body {
 
 .btn-cart:hover {
     transform: scale(1.05);
+}
+
+/* --- CARRINHO LATERAL (SIDEBAR) --- */
+.carrinho-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100vh;
+    background-color: var(--bg-color);
+    border-left: 2px solid var(--brand-purple);
+    z-index: 1001;
+    transition: right 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.carrinho-sidebar.aberto {
+    right: 0;
+}
+
+.carrinho-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: none;
+}
+
+.carrinho-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.fechar-btn {
+    background: transparent;
+    color: var(--btn-red);
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.carrinho-lista {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.item-carrinho {
+    display: flex;
+    gap: 10px;
+    background-color: #111;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.item-carrinho img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.carrinho-footer {
+    margin-top: auto;
+    padding-top: 15px;
+    padding-bottom: 10px;
 }
