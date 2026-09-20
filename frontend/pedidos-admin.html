@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Encomendas - Monkeys Store</title>
+    <!-- Mantenha os mesmos links de CSS que você já usa no painel.html -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Estilos base herdados do seu painel */
+        body { background-color: var(--bg-color, #000); color: white; margin: 0; font-family: sans-serif; }
+        .header-admin { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #333; }
+        .nav-admin a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; border-bottom: 2px solid transparent; padding-bottom: 5px; }
+        .nav-admin a:hover, .nav-admin a.ativo { border-bottom: 2px solid var(--brand-red, #ff0000); }
+        .estoque-container { padding: 40px; }
+        .tabela-estoque { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
+        .tabela-estoque th, .tabela-estoque td { padding: 15px; border-bottom: 1px solid #333; }
+        .btn-acao { background: transparent; border: 1px solid white; color: white; padding: 8px 12px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        .btn-acao:hover { background: rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body>
+
+<header class="header-admin" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 15px 40px; background-color: #000; border-bottom: 1px solid #222;">
+    
+    <!-- 1. Coluna Esquerda: Logótipo da Loja -->
+    <div style="display: flex; justify-content: flex-start; align-items: center;">
+        <!-- Verifique se o caminho da imagem (src) está correto para a sua pasta -->
+        <img src="img/LogoMonkeysHome - Editado.png" alt="Logo Monkeys Store" style="height: 110px; width: auto; object-fit: contain; border-radius: 8px;">
+    </div>
+
+    <!-- 2. Coluna Central: Nome da Página Centralizado -->
+    <div style="text-align: center;">
+        <h1 style="margin: 0; font-family: 'Bebas Neue', sans-serif; color: rgb(255, 255, 255); font-size: 28px; letter-spacing: 2px;">
+            MONKEYS <span style="color: var(--brand-red, #9b59b6);">MAKER</span>
+        </h1>
+    </div>
+    
+    <!-- 3. Coluna Direita: Menus de Navegação -->
+    <nav class="nav-admin" style="display: flex; justify-content: flex-end; align-items: center; gap: 30px;">
+        
+        <!-- Ajuste o text-decoration: underline na página que estiver ativa -->
+        <a href="painel.html" style="color: white; text-decoration: none; font-family: sans-serif; font-size: 14px; font-weight: bold; transition: color 0.3s;">
+            <i class="fas fa-box" style="margin-right: 5px;"></i> Produtos
+        </a>
+        
+        <a href="pedidos-admin.html" style="color: #888; text-decoration: none; font-family: sans-serif; font-size: 14px; font-weight: bold; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#888'">
+            <i class="fas fa-shopping-cart" style="margin-right: 5px;"></i> Encomendas
+        </a>
+        
+        <!-- Linha divisória -->
+        <div style="width: 1px; height: 20px; background-color: #333;"></div>
+
+        <!-- Botão Sair -->
+        <i class="fa fa-sign-out-alt icon" style="cursor: pointer; color: #888; font-size: 18px; transition: color 0.3s;" title="Sair do Painel" onclick="window.location.href='index.html'" onmouseover="this.style.color='var(--brand-red, #ff0000)'" onmouseout="this.style.color='#888'"></i>
+    </nav>
+</header>
+
+<main style="padding: 40px; display: flex; justify-content: center;">
+    <!-- Esta div cria o cartão com fundo cinzento igual ao do painel.html -->
+    <div class="estoque-container" style="background-color: #111111; padding: 30px 40px; border-radius: 8px; border: 1px solid #333; width: 100%; max-width: 1200px;">
+        
+        <h2 style="font-family: 'Edo', sans-serif; color: var(--brand-green, #00ff88); margin-top: 0; margin-bottom: 30px; font-size: 20px; letter-spacing: 1px;">ENCOMENDAS RECEBIDAS</h2>
+        
+        <table class="tabela-estoque" style="width: 100%; border-collapse: collapse; text-align: left; font-family: sans-serif; font-size: 14px;">
+            <thead>
+                <tr style="border-bottom: 1px solid #333; color: #888;">
+                    <th style="padding: 15px 10px; font-weight: normal;">PEDIDO #</th>
+                    <th style="padding: 15px 10px; font-weight: normal;">CLIENTE</th>
+                    <th style="padding: 15px 10px; font-weight: normal;">DATA</th>
+                    <th style="padding: 15px 10px; font-weight: normal;">STATUS</th>
+                    <th style="padding: 15px 10px; font-weight: normal;">TOTAL</th>
+                    <th style="padding: 15px 10px; font-weight: normal;">AÇÕES</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-pedidos-body">
+                <!-- Injetado pelo JavaScript -->
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
+    <!-- Script exclusivo para a gestão de encomendas -->
+    <script src="pedidos-admin.js"></script>
+</body>
+</html>

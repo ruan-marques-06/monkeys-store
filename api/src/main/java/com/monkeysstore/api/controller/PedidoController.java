@@ -1,6 +1,7 @@
 package com.monkeysstore.api.controller;
 
 import com.monkeysstore.api.dto.PedidoDTO;
+import com.monkeysstore.api.dto.PedidoResumoDTO;
 import com.monkeysstore.api.dto.ItemPedidoDTO;
 import com.monkeysstore.api.model.Cliente;
 import com.monkeysstore.api.model.ItemPedido;
@@ -74,6 +75,46 @@ public class PedidoController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Erro ao processar a encomenda: " + e.getMessage());
+        }
+    }
+    
+    // ROTA 1: Listar todas as encomendas para o painel do vendedor
+    @GetMapping
+    public ResponseEntity<List<PedidoResumoDTO>> listarPedidos() {
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        List<PedidoResumoDTO> resumoList = new ArrayList<>();
+
+        for (Pedido p : pedidos) {
+            PedidoResumoDTO dto = new PedidoResumoDTO();
+            dto.setId(p.getId());
+            // Proteção caso o cliente seja nulo por algum erro antigo na base de dados
+            dto.setNomeCliente(p.getCliente() != null ? p.getCliente().getNome() : "Cliente Desconhecido");
+            dto.setDataEmissao(p.getDataEmissao());
+            dto.setStatus(p.getStatus());
+            dto.setValorTotal(p.getValorTotal());
+            
+            resumoList.add(dto);
+        }
+
+        return ResponseEntity.ok(resumoList);
+    }
+
+    // ROTA 2: Atualizar o estado da encomenda (Ex: Enviado, Cancelado)
+    @PutMapping("/{id}/status")
+    @Transactional
+    public ResponseEntity<String> atualizarStatusPedido(@PathVariable Integer id, @RequestBody String novoStatus) {
+        try {
+            Pedido pedido = pedidoRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Encomenda não encontrada"));
+            
+            // Limpa as aspas do JSON caso o frontend envie como string pura
+            novoStatus = novoStatus.replace("\"", "");
+            pedido.atualizarStatus(novoStatus);
+            
+            // O @Transactional encarrega-se de guardar automaticamente no Supabase
+            return ResponseEntity.ok("Estado da encomenda atualizado para: " + novoStatus);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao atualizar estado: " + e.getMessage());
         }
     }
 }
