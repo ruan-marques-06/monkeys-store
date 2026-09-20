@@ -105,19 +105,34 @@ async function finalizarPedido() {
         return;
     }
 
+    // 1. VERIFICA SE O CLIENTE ESTÁ LOGADO
+    const usuarioJSON = localStorage.getItem('usuarioLogado');
+
+    // Se não houver dados salvos, bloqueia a compra e manda para o login
+    if (!usuarioJSON) {
+        alert("Por favor, faça login ou crie uma conta para finalizar a sua encomenda.");
+        window.location.href = 'login.html';
+        return; // Para a função aqui
+    }
+
+    // Desempacota os dados do cliente que o login.js guardou
+    const usuarioLogado = JSON.parse(usuarioJSON);
+    const idDoClienteLogado = usuarioLogado.id;
+
     // Calcula o total e formata os itens para o Java
     let total = 0;
     const itensFormatados = itensCarrinho.map(item => {
         total += item.preco;
         return {
             produtoId: item.id,
-            quantidade: 1, // Por padrão, 1 unidade de cada clique
+            quantidade: 1, 
             precoUnitario: item.preco
         };
     });
 
+    // 2. MONTA O PEDIDO COM O ID REAL
     const payload = {
-        clienteId: 1, // ID provisório para evitar o erro de 'nullable = false'
+        clienteId: idDoClienteLogado, // Substituímos o "1" pelo ID de quem fez login
         valorTotal: total,
         itens: itensFormatados
     };
@@ -133,8 +148,8 @@ async function finalizarPedido() {
 
         if (resposta.ok) {
             alert("Encomenda finalizada com sucesso!");
-            itensCarrinho = []; // Limpa o carrinho
-            renderizarCarrinho(); // Atualiza a tela
+            itensCarrinho = []; 
+            renderizarCarrinho(); 
             fecharCarrinhos();
         } else {
             alert("Falha ao processar encomenda.");
