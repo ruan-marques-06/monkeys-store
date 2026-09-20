@@ -98,3 +98,49 @@ function fecharCarrinhos() {
     document.getElementById('carrinho-sidebar').classList.remove('aberto');
     document.getElementById('carrinho-overlay').style.display = 'none';
 }
+
+async function finalizarPedido() {
+    if (itensCarrinho.length === 0) {
+        alert("O seu carrinho está vazio.");
+        return;
+    }
+
+    // Calcula o total e formata os itens para o Java
+    let total = 0;
+    const itensFormatados = itensCarrinho.map(item => {
+        total += item.preco;
+        return {
+            produtoId: item.id,
+            quantidade: 1, // Por padrão, 1 unidade de cada clique
+            precoUnitario: item.preco
+        };
+    });
+
+    const payload = {
+        clienteId: 1, // ID provisório para evitar o erro de 'nullable = false'
+        valorTotal: total,
+        itens: itensFormatados
+    };
+
+    try {
+        const resposta = await fetch('http://localhost:8080/api/pedidos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (resposta.ok) {
+            alert("Encomenda finalizada com sucesso!");
+            itensCarrinho = []; // Limpa o carrinho
+            renderizarCarrinho(); // Atualiza a tela
+            fecharCarrinhos();
+        } else {
+            alert("Falha ao processar encomenda.");
+        }
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro de conexão com o servidor.");
+    }
+}
