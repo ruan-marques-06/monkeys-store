@@ -7,6 +7,8 @@
     <!-- Mantenha os mesmos links de CSS que você já usa no painel.html -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Coloque isto junto aos outros links de CSS no <head> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
         /* Estilos base herdados do seu painel */
         body { background-color: var(--bg-color, #000); color: white; margin: 0; font-family: sans-serif; }
@@ -84,5 +86,7 @@
 
     <!-- Script exclusivo para a gestão de encomendas -->
     <script src="pedidos-admin.js"></script>
+    <!-- Coloque isto antes do seu script principal (ex: antes do <script src="app.js"></script>) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>

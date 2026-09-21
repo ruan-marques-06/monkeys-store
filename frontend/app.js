@@ -3,6 +3,31 @@ document.addEventListener('DOMContentLoaded', carregarVitrine);
 // Memória temporária do carrinho
 let itensCarrinho = [];
 
+// Função mágica para mostrar notificações elegantes
+function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+    // Define as cores com base no tipo (verde para sucesso, vermelho para erro)
+    const corFundo = tipo === 'sucesso' ? '#000000' : '#000000';
+    const corBorda = tipo === 'sucesso' ? '1px solid #00ff88' : '1px solid #ff0000';
+    const corTexto = tipo === 'sucesso' ? '#00ff88' : '#ff0000';
+
+    Toastify({
+        text: mensagem,
+        duration: 3000, // Desaparece após 3 segundos
+        close: true,    // Mostra um 'x' para fechar
+        gravity: "top", // Aparece no topo da tela
+        position: "right", // Aparece no lado direito
+        style: {
+            background: corFundo,
+            border: corBorda,
+            color: corTexto,
+            borderRadius: "8px",
+            fontFamily: "sans-serif",
+            fontWeight: "bold",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.5)"
+        }
+    }).showToast();
+}
+
 // Busca os produtos na API e desenha a vitrine
 async function carregarVitrine() {
     const grid = document.querySelector('.product-grid');
@@ -110,7 +135,7 @@ async function finalizarPedido() {
 
     // Se não houver dados salvos, bloqueia a compra e manda para o login
     if (!usuarioJSON) {
-        alert("Por favor, faça login ou crie uma conta para finalizar a sua encomenda.");
+        mostrarNotificacao("Por favor, faça login ou crie uma conta para finalizar a sua encomenda.");
         window.location.href = 'login.html';
         return; // Para a função aqui
     }
@@ -147,15 +172,15 @@ async function finalizarPedido() {
         });
 
         if (resposta.ok) {
-            alert("Encomenda finalizada com sucesso!");
+            mostrarNotificacao("🚀 Encomenda finalizada com sucesso!", "sucesso"); 
             itensCarrinho = []; 
             renderizarCarrinho(); 
             fecharCarrinhos();
         } else {
-            alert("Falha ao processar encomenda.");
+            mostrarNotificacao("⚠️ Falha ao processar encomenda.");
         }
     } catch (erro) {
         console.error(erro);
-        alert("Erro de conexão com o servidor.");
+        mostrarNotificacao("❌ Erro de conexão com o Servidor.");
     }
 }

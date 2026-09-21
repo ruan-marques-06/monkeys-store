@@ -1,5 +1,30 @@
 document.addEventListener('DOMContentLoaded', carregarPedidos);
 
+// Função mágica para mostrar notificações elegantes
+function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+    // Define as cores com base no tipo (verde para sucesso, vermelho para erro)
+    const corFundo = tipo === 'sucesso' ? '#000000' : '#000000';
+    const corBorda = tipo === 'sucesso' ? '1px solid #00ff88' : '1px solid #ff0000';
+    const corTexto = tipo === 'sucesso' ? '#00ff88' : '#ff0000';
+
+    Toastify({
+        text: mensagem,
+        duration: 3000, // Desaparece após 3 segundos
+        close: true,    // Mostra um 'x' para fechar
+        gravity: "top", // Aparece no topo da tela
+        position: "right", // Aparece no lado direito
+        style: {
+            background: corFundo,
+            border: corBorda,
+            color: corTexto,
+            borderRadius: "8px",
+            fontFamily: "sans-serif",
+            fontWeight: "bold",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.5)"
+        }
+    }).showToast();
+}
+
 async function carregarPedidos() {
     const tbody = document.getElementById('tabela-pedidos-body');
     if (!tbody) return;
@@ -62,10 +87,10 @@ async function atualizarStatusPedido(idPedido, novoStatus) {
         if (resposta.ok) {
             carregarPedidos();
         } else {
-            alert('Erro ao atualizar status.');
+            mostrarNotificacao('Erro ao atualizar status.');
         }
     } catch (erro) {
         console.error(erro);
-        alert('Erro de conexão com o servidor.');
+        mostrarNotificacao('Erro de conexão com o servidor.');
     }
 }

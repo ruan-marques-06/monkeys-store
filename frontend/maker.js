@@ -56,7 +56,7 @@ document.getElementById('form-maker').addEventListener('submit', async function(
             if (inputArquivo.files.length > 0) {
                 formData.append('imagemFile', inputArquivo.files[0]);
             } else {
-                alert("Por favor, selecione uma imagem do seu computador.");
+                mostrarNotificacao("Por favor, selecione uma imagem do seu computador.");
                 return;
             }
 
@@ -84,11 +84,11 @@ document.getElementById('form-maker').addEventListener('submit', async function(
         }
 
         if (resposta.ok) {
-            alert(id ? 'Produto atualizado com sucesso!' : 'Produto salvo e imagem enviada para a nuvem!');
+            mostrarNotificacao(id ? 'Produto atualizado com sucesso!' : 'Produto salvo e imagem enviada para a nuvem!');
             cancelarEdicao(); 
             carregarProdutos(); 
         } else {
-            alert('Erro ao salvar o produto no servidor.');
+            mostrarNotificacao('Erro ao salvar o produto no servidor.');
         }
     } catch (erro) {
         console.error('Erro de conexão:', erro);
