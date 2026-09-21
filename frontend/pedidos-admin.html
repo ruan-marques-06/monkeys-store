@@ -64,6 +64,16 @@
     <div class="estoque-container" style="background-color: #111111; padding: 30px 40px; border-radius: 8px; border: 1px solid #333; width: 100%; max-width: 1200px;">
         
         <h2 style="font-family: 'Edo', sans-serif; color: var(--brand-green, #00ff88); margin-top: 0; margin-bottom: 30px; font-size: 20px; letter-spacing: 1px;">ENCOMENDAS RECEBIDAS</h2>
+        <!-- NOVA ÁREA DE FILTROS -->
+        <div style="margin-bottom: 25px; display: flex; gap: 15px; flex-wrap: wrap;">
+            <button onclick="aplicarFiltro('TODOS', this)" class="btn-filtro ativo" style="background: transparent; border: 1px solid var(--brand-red, #ff0000); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">Todas</button>
+            
+            <button onclick="aplicarFiltro('AGUARDANDO PAGAMENTO', this)" class="btn-filtro" style="background: transparent; border: 1px solid #333; color: #888; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">⏳ Aguardando</button>
+            
+            <button onclick="aplicarFiltro('ENVIADO', this)" class="btn-filtro" style="background: transparent; border: 1px solid #333; color: #888; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">✅ Enviadas</button>
+            
+            <button onclick="aplicarFiltro('CANCELADO', this)" class="btn-filtro" style="background: transparent; border: 1px solid #333; color: #888; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">❌ Canceladas</button>
+        </div>
         
         <table class="tabela-estoque" style="width: 100%; border-collapse: collapse; text-align: left; font-family: sans-serif; font-size: 14px;">
             <thead>
