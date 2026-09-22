@@ -14,6 +14,9 @@ public class Produto {
     @Column(nullable = false)
     private String nome;
 
+    @Column(name = "categoria")
+    private String categoria;
+
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
@@ -24,7 +27,7 @@ public class Produto {
     private Integer quantidadeEmEstoque;
 
     @Column(name = "imagem_url")
-    private String imagemUrl; // Aqui guardaremos o link da foto do produto
+    private String imagemUrl;
 
     // Getters e Setters
     public Integer getId() {
@@ -41,6 +44,14 @@ public class Produto {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getDescricao() {

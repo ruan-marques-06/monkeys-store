@@ -64,6 +64,28 @@
     <div class="estoque-container" style="background-color: #111111; padding: 30px 40px; border-radius: 8px; border: 1px solid #333; width: 100%; max-width: 1200px;">
         
         <h2 style="font-family: 'Edo', sans-serif; color: var(--brand-green, #00ff88); margin-top: 0; margin-bottom: 30px; font-size: 20px; letter-spacing: 1px;">ENCOMENDAS RECEBIDAS</h2>
+        <!-- CARTÕES DE MÉTRICAS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            
+            <!-- Cartão Faturamento (Verde) -->
+            <div style="background-color: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 20px; border-left: 4px solid #00ff88; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                <p style="color: #888; font-size: 13px; margin: 0 0 5px 0; font-weight: bold; text-transform: uppercase;">Total Faturado (Válidos)</p>
+                <h3 id="metrica-faturamento" style="color: white; font-size: 28px; margin: 0; font-family: sans-serif;">R$ 0,00</h3>
+            </div>
+            
+            <!-- Cartão Pendentes (Amarelo) -->
+            <div style="background-color: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 20px; border-left: 4px solid #ffcc00; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                <p style="color: #888; font-size: 13px; margin: 0 0 5px 0; font-weight: bold; text-transform: uppercase;">Aguardando Pagamento</p>
+                <h3 id="metrica-pendentes" style="color: white; font-size: 28px; margin: 0; font-family: sans-serif;">0</h3>
+            </div>
+
+            <!-- Cartão Enviados (Verde Escuro) -->
+            <div style="background-color: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 20px; border-left: 4px solid #00aa55; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                <p style="color: #888; font-size: 13px; margin: 0 0 5px 0; font-weight: bold; text-transform: uppercase;">Encomendas Enviadas</p>
+                <h3 id="metrica-enviados" style="color: white; font-size: 28px; margin: 0; font-family: sans-serif;">0</h3>
+            </div>
+
+        </div>
         <!-- NOVA ÁREA DE FILTROS -->
         <div style="margin-bottom: 25px; display: flex; gap: 15px; flex-wrap: wrap;">
             <button onclick="aplicarFiltro('TODOS', this)" class="btn-filtro ativo" style="background: transparent; border: 1px solid var(--brand-red, #ff0000); color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s;">Todas</button>

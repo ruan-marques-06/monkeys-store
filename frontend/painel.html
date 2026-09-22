@@ -6,6 +6,8 @@
     <title>Painel Admin - Monkeys Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Adicionando o Toastify para as notificações -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
         /* Estilos do Formulário */
         .maker-container { padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
@@ -33,35 +35,24 @@
 
 <header class="header-admin" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 15px 40px; background-color: #000; border-bottom: 1px solid #222;">
     
-    <!-- 1. Coluna Esquerda: Logótipo da Loja -->
     <div style="display: flex; justify-content: flex-start; align-items: center;">
-        <!-- Verifique se o caminho da imagem (src) está correto para a sua pasta -->
         <img src="img/LogoMonkeysHome - Editado.png" alt="Logo Monkeys Store" style="height: 110px; width: auto; object-fit: contain; border-radius: 8px;">
     </div>
 
-    <!-- 2. Coluna Central: Nome da Página Centralizado -->
     <div style="text-align: center;">
         <h1 style="margin: 0; font-family: 'Bebas Neue', sans-serif; color: rgb(255, 255, 255); font-size: 28px; letter-spacing: 2px;">
             MONKEYS <span style="color: var(--brand-red, #9b59b6);">MAKER</span>
         </h1>
     </div>
     
-    <!-- 3. Coluna Direita: Menus de Navegação -->
     <nav class="nav-admin" style="display: flex; justify-content: flex-end; align-items: center; gap: 30px;">
-        
-        <!-- Ajuste o text-decoration: underline na página que estiver ativa -->
         <a href="painel.html" style="color: white; text-decoration: none; font-family: sans-serif; font-size: 14px; font-weight: bold; transition: color 0.3s;">
             <i class="fas fa-box" style="margin-right: 5px;"></i> Produtos
         </a>
-        
         <a href="pedidos-admin.html" style="color: #888; text-decoration: none; font-family: sans-serif; font-size: 14px; font-weight: bold; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#888'">
             <i class="fas fa-shopping-cart" style="margin-right: 5px;"></i> Encomendas
         </a>
-        
-        <!-- Linha divisória -->
         <div style="width: 1px; height: 20px; background-color: #333;"></div>
-
-        <!-- Botão Sair -->
         <i class="fa fa-sign-out-alt icon" style="cursor: pointer; color: #888; font-size: 18px; transition: color 0.3s;" title="Sair do Painel" onclick="window.location.href='index.html'" onmouseover="this.style.color='var(--brand-red, #ff0000)'" onmouseout="this.style.color='#888'"></i>
     </nav>
 </header>
@@ -71,10 +62,13 @@
         <form id="form-maker" class="maker-form">
             <h2 id="titulo-form">Adicionar Novo Produto</h2>
             
-            <!-- Campo oculto para guardar o ID na hora de editar -->
             <input type="hidden" id="produtoId">
             
             <input type="text" id="nome" placeholder="Nome da Peça (ex: Camisa Oversized Puma)" required>
+            
+            <!-- NOVO CAMPO DE CATEGORIA AQUI -->
+            <input type="text" id="categoria" placeholder="Categoria (ex: OVERSIZED, BONE, CALCADO)" required>
+            
             <textarea id="descricao" placeholder="Descrição e detalhes da peça..." rows="3" required></textarea>
             
             <div style="display: flex; gap: 10px;">
@@ -102,12 +96,13 @@
                     </tr>
                 </thead>
                 <tbody id="tabela-corpo">
-                    <!-- O JavaScript vai injetar as linhas aqui -->
                 </tbody>
             </table>
         </div>
     </main>
 
+    <!-- Toastify Script -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="maker.js"></script>
 </body>
 </html>

@@ -235,3 +235,67 @@ body {
     padding-top: 15px;
     padding-bottom: 10px;
 }
+
+/* =========================================
+   ESTILOS DA BARRA DE CATEGORIAS LATERAL
+========================================= */
+.sidebar-categorias {
+    width: 250px;
+    padding: 20px;
+    background-color: #0a0a0a; /* Fundo ligeiramente destacado do fundo preto da loja */
+    border: 1px solid #222;
+    border-radius: 8px;
+    height: fit-content;
+    margin-right: 20px;
+}
+
+.titulo-sidebar {
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--brand-red, #e60000);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.menu-categorias {
+    list-style: none; /* Remove as bolinhas feias */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaço entre os botões */
+}
+
+.link-categoria {
+    display: block;
+    color: #888;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px 15px;
+    border-radius: 4px;
+    background-color: transparent;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease; /* Animação suave */
+}
+
+/* O que acontece quando o rato passa por cima */
+.link-categoria:hover {
+    color: white;
+    background-color: #151515;
+    border-left: 3px solid #555;
+    padding-left: 20px; /* Efeito de pequeno empurrão para a direita */
+}
+
+/* A classe para quando a categoria está SELECIONADA */
+.link-categoria.ativo {
+    color: white;
+    background-color: #1a1a1a;
+    border-left: 3px solid var(--brand-red, #e60000); /* Traço vermelho da marca */
+}

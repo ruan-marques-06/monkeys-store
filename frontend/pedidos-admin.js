@@ -44,7 +44,7 @@ async function carregarPedidos() {
         
         // Chama a função que desenha a tabela
         renderizarTabela();
-
+        atualizarMetricas();
     } catch (erro) {
         console.error(erro);
         tbody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center; padding: 20px;">Erro de conexão com o servidor.</td></tr>';
@@ -134,4 +134,27 @@ async function atualizarStatusPedido(idPedido, novoStatus) {
         console.error(erro);
         mostrarNotificacao('❌ Erro de conexão com o servidor.', 'erro');
     }
+}
+
+// 5. Calcula e atualiza os cartões de métricas no topo da página
+function atualizarMetricas() {
+    let faturamento = 0;
+    let pendentes = 0;
+    let enviados = 0;
+
+    todasAsEncomendas.forEach(pedido => {
+        // Soma o dinheiro de todos os pedidos, exceto os cancelados
+        if (pedido.status !== 'CANCELADO') {
+            faturamento += pedido.valorTotal;
+        }
+        
+        // Conta as quantidades
+        if (pedido.status === 'AGUARDANDO PAGAMENTO') pendentes++;
+        if (pedido.status === 'ENVIADO') enviados++;
+    });
+
+    // Atualiza os textos no ecrã
+    document.getElementById('metrica-faturamento').innerText = `R$ ${faturamento.toFixed(2).replace('.', ',')}`;
+    document.getElementById('metrica-pendentes').innerText = pendentes;
+    document.getElementById('metrica-enviados').innerText = enviados;
 }

@@ -15,47 +15,43 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/produtos")
-@CrossOrigin(origins = "*") // Permite que o frontend acesse sem bloqueios
+@CrossOrigin(origins = "*") 
 public class ProdutoController {
 
-    // --- DEPENDÊNCIAS (Sempre no topo) ---
     @Autowired
     private ProdutoRepository produtoRepository;
 
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    // --- ROTAS (MÉTODOS) ---
-
-    // 1. LER: Retorna todos os produtos cadastrados
+    // 1. LER
     @GetMapping
     public ResponseEntity<List<Produto>> listarProdutos() {
         List<Produto> produtos = produtoRepository.findAll();
         return ResponseEntity.ok(produtos);
     }
 
-    // 2. CRIAR: Recebe os dados do formulário e a imagem física
+    // 2. CRIAR
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Produto> criarProduto(
             @RequestParam("nome") String nome,
+            @RequestParam("categoria") String categoria, // NOVA VARIÁVEL RECEBIDA
             @RequestParam("descricao") String descricao,
             @RequestParam("preco") BigDecimal preco,
             @RequestParam("quantidadeEmEstoque") Integer quantidadeEmEstoque,
             @RequestParam("imagemFile") MultipartFile imagemFile) {
 
         try {
-            // 1. Envia a foto para a nuvem e recebe a URL
             String urlDaFoto = cloudinaryService.uploadImagem(imagemFile);
 
-            // 2. Monta o objeto Produto com os dados e a nova URL
             Produto novo = new Produto();
             novo.setNome(nome);
+            novo.setCategoria(categoria); // SETANDO A CATEGORIA
             novo.setDescricao(descricao);
             novo.setPreco(preco);
             novo.setQuantidadeEmEstoque(quantidadeEmEstoque);
             novo.setImagemUrl(urlDaFoto);
 
-            // 3. Salva no banco de dados (Supabase)
             Produto produtoSalvo = produtoRepository.save(novo);
             return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
 
@@ -63,9 +59,9 @@ public class ProdutoController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    } // <-- ESTA ERA A CHAVE QUE ESTAVA FALTANDO!
+    } 
 
-    // 3. ATUALIZAR: Edita um produto existente
+    // 3. ATUALIZAR
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarProduto(@PathVariable Integer id, @RequestBody Produto produtoAtualizado) {
         Optional<Produto> produtoExistente = produtoRepository.findById(id);
@@ -73,6 +69,7 @@ public class ProdutoController {
         if (produtoExistente.isPresent()) {
             Produto produto = produtoExistente.get();
             produto.setNome(produtoAtualizado.getNome());
+            produto.setCategoria(produtoAtualizado.getCategoria()); // ATUALIZANDO A CATEGORIA
             produto.setDescricao(produtoAtualizado.getDescricao());
             produto.setPreco(produtoAtualizado.getPreco());
             produto.setQuantidadeEmEstoque(produtoAtualizado.getQuantidadeEmEstoque());
@@ -85,7 +82,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado.");
     }
 
-    // 4. DELETAR: Remove um produto do banco de dados
+    // 4. DELETAR
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarProduto(@PathVariable Integer id) {
         if (produtoRepository.existsById(id)) {
