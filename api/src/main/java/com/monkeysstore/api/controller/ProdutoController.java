@@ -31,6 +31,17 @@ public class ProdutoController {
         return ResponseEntity.ok(produtos);
     }
 
+    // 1.5 LER UM ÚNICO PRODUTO (Usado na Página de Detalhes)
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarProdutoPorId(@PathVariable Integer id) {
+        Optional<Produto> produto = produtoRepository.findById(id);
+        
+        if (produto.isPresent()) {
+            return ResponseEntity.ok(produto.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado.");
+    }
+
     // 2. CRIAR
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Produto> criarProduto(

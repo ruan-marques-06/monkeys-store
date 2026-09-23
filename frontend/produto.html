@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Peça - Monkeys Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        .pdp-container { display: flex; max-width: 1200px; margin: 50px auto; gap: 50px; padding: 0 20px; color: white; }
+        .pdp-imagem { flex: 1; text-align: center; background: #0a0a0a; border-radius: 8px; border: 1px solid #222; padding: 20px; }
+        .pdp-imagem img { max-width: 100%; max-height: 600px; object-fit: contain; border-radius: 4px; }
+        .pdp-info { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .pdp-categoria { color: var(--brand-red, #e60000); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+        .pdp-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; margin: 0; letter-spacing: 1px; }
+        .pdp-preco { font-size: 2rem; color: #00ff88; font-weight: bold; }
+        .pdp-descricao { color: #aaa; line-height: 1.6; font-size: 1.1rem; }
+        
+        .tamanhos-wrapper { margin-top: 10px; }
+        .tamanhos-grid { display: flex; gap: 15px; margin-top: 10px; }
+        .btn-tamanho { background: #111; color: white; border: 2px solid #333; padding: 10px 20px; font-size: 1.2rem; font-weight: bold; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .btn-tamanho:hover { border-color: #888; }
+        .btn-tamanho.selecionado { background: var(--brand-red, #e60000); border-color: var(--brand-red, #e60000); }
+        
+        .btn-comprar-grande { background: var(--brand-red, #e60000); color: white; border: none; padding: 20px; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 20px; width: 100%; }
+        .btn-comprar-grande:hover { background: #cc0000; transform: translateY(-2px); }
+    </style>
+</head>
+<body style="background-color: #000; margin: 0;">
+
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="img/LogoMonkeysHome - Editado.png" alt="Monkeys Store" class="logo">
+            </a>
+        </div>
+        <div class="header-icons">
+            <i class="fas fa-shopping-cart cart-icon" onclick="abrirSidebar()" style="cursor: pointer;"></i>
+            <i class="fas fa-user user-icon"></i>
+        </div>
+    </header>
+
+    <!-- Sidebar do Carrinho -->
+    <div id="carrinho-sidebar" class="carrinho-sidebar">
+        <div class="carrinho-header">
+            <h2>MEU CARRINHO</h2>
+            <button class="fechar-btn" onclick="fecharCarrinhos()">X</button>
+        </div>
+        <div id="itens-sidebar" class="carrinho-lista"></div>
+        <div class="carrinho-footer">
+            <h3>TOTAL: <span id="total-sidebar" style="color: var(--price-green);">R$ 0,00</span></h3>
+            <button class="btn-cart" onclick="finalizarPedido()" style="width: 100%; margin-top: 10px;">FINALIZAR ENCOMENDA</button>
+        </div>
+    </div>
+    <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinhos()"></div>
+
+    <!-- Conteúdo Principal -->
+    <main class="pdp-container" id="pdp-conteudo">
+        <h2 style="color: white; text-align: center; width: 100%;">A carregar detalhes da peça...</h2>
+    </main>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="produto.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,21 +1,28 @@
-document.addEventListener('DOMContentLoaded', carregarVitrine);
+// ==========================================
+// ESTADO GLOBAL
+// ==========================================
+let itensCarrinho = JSON.parse(localStorage.getItem('carrinhoMonkeys')) || [];
+let todosOsProdutos = []; 
 
-// Memória temporária do carrinho
-let itensCarrinho = [];
+document.addEventListener('DOMContentLoaded', () => {
+    carregarVitrine();
+    renderizarCarrinho();
+});
 
-// Função mágica para mostrar notificações elegantes
+// ==========================================
+// UI: COMPONENTES GERAIS
+// ==========================================
 function mostrarNotificacao(mensagem, tipo = 'sucesso') {
-    // Define as cores com base no tipo (verde para sucesso, vermelho para erro)
-    const corFundo = tipo === 'sucesso' ? '#000000' : '#000000';
+    const corFundo = '#000000';
     const corBorda = tipo === 'sucesso' ? '1px solid #00ff88' : '1px solid #ff0000';
     const corTexto = tipo === 'sucesso' ? '#00ff88' : '#ff0000';
 
     Toastify({
         text: mensagem,
-        duration: 3000, // Desaparece após 3 segundos
-        close: true,    // Mostra um 'x' para fechar
-        gravity: "top", // Aparece no topo da tela
-        position: "right", // Aparece no lado direito
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
         style: {
             background: corFundo,
             border: corBorda,
@@ -28,55 +35,50 @@ function mostrarNotificacao(mensagem, tipo = 'sucesso') {
     }).showToast();
 }
 
-// Busca os produtos na API e desenha a vitrine
-// Memória global para a vitrine
-let todosOsProdutos = []; 
-
-// 1. Busca os dados no servidor e inicializa a tela
+// ==========================================
+// API & RENDERIZAÇÃO: VITRINE E CATEGORIAS
+// ==========================================
 async function carregarVitrine() {
     const grid = document.querySelector('.product-grid');
-    if (!grid) return; // Proteção extra caso não esteja na página index.html
+    if (!grid) return;
 
     grid.innerHTML = '<p style="text-align: center; width: 100%;">A carregar coleção...</p>';
 
     try {
         const resposta = await fetch('http://localhost:8080/api/produtos');
-        if (!resposta.ok) throw new Error('Falha ao comunicar com o servidor');
+        if (!resposta.ok) throw new Error('Falha de API');
         
-        // Guarda na memória
         todosOsProdutos = await resposta.json();
         
-        // Desenha a loja inteira e monta o menu lateral dinâmico
         renderizarProdutos(todosOsProdutos);
         renderizarCategorias();
-
     } catch (erro) {
         console.error(erro);
-        grid.innerHTML = '<p style="color: var(--btn-red); text-align: center; width: 100%;">Erro ao carregar o catálogo. O backend está a correr?</p>';
+        grid.innerHTML = '<p style="color: var(--btn-red); text-align: center; width: 100%;">Erro de conexão com servidor.</p>';
     }
 }
 
-// 2. Desenha os "cards" das roupas no ecrã
 function renderizarProdutos(listaDeProdutos) {
     const grid = document.querySelector('.product-grid');
+    if (!grid) return;
     grid.innerHTML = ''; 
 
     if (listaDeProdutos.length === 0) {
-        grid.innerHTML = '<p style="text-align: center; width: 100%; color: #888;">Nenhuma peça encontrada para este filtro.</p>';
+        grid.innerHTML = '<p style="text-align: center; width: 100%; color: #888;">Nenhuma peça encontrada.</p>';
         return;
     }
 
     listaDeProdutos.forEach(produto => {
         const card = `
             <article class="card">
-                <div class="image-wrapper">
+                <div class="image-wrapper" onclick="window.location.href='produto.html?id=${produto.id}'" style="cursor: pointer;">
                     <img src="${produto.imagemUrl || 'img/placeholder.png'}" alt="${produto.nome}">
                 </div>
                 <div class="card-info">
-                    <h2 class="title">${produto.nome}</h2>
+                    <h2 class="title" onclick="window.location.href='produto.html?id=${produto.id}'" style="cursor: pointer;">${produto.nome}</h2>
                     <span class="price">R$ ${produto.preco.toFixed(2).replace('.', ',')}</span>
-                    <button class="btn-cart" onclick="adicionarAoCarrinho(${produto.id}, '${produto.nome}', ${produto.preco}, '${produto.imagemUrl}')">
-                        ADICIONAR AO CARRINHO
+                    <button class="btn-cart" onclick="window.location.href='produto.html?id=${produto.id}'">
+                        VER DETALHES
                     </button>
                 </div>
             </article>
@@ -85,22 +87,18 @@ function renderizarProdutos(listaDeProdutos) {
     });
 }
 
-// 3. Lê o banco de dados e cria os botões do menu
 function renderizarCategorias() {
     const lista = document.getElementById('lista-categorias');
     if (!lista) return;
 
-    // Filtra categorias vazias e remove duplicados
     const categoriasBrutas = todosOsProdutos
         .map(produto => produto.categoria)
         .filter(categoria => categoria != null && categoria.trim() !== '');
     
     const categoriasUnicas = [...new Set(categoriasBrutas)].sort();
 
-    // Começa sempre com o botão "Todas as Peças" (repare que ele já ganha a classe 'ativo')
     let html = `<li><a href="#" onclick="filtrarPorCategoria('TODAS', this)" class="link-categoria ativo">Todas as Peças</a></li>`;
 
-    // Cria os restantes botões
     categoriasUnicas.forEach(categoria => {
         html += `<li><a href="#" onclick="filtrarPorCategoria('${categoria}', this)" class="link-categoria">${categoria}</a></li>`;
     });
@@ -108,19 +106,14 @@ function renderizarCategorias() {
     lista.innerHTML = html;
 }
 
-// 4. Acionado quando clica numa categoria do menu
 function filtrarPorCategoria(categoriaDesejada, elementoClicado) {
-    if (event) event.preventDefault(); // Evita que a página salte para o topo
+    if (event) event.preventDefault(); 
 
-    // 1. Gere a parte visual: remove a classe 'ativo' de todos e coloca só no clicado
     if (elementoClicado) {
-        document.querySelectorAll('.link-categoria').forEach(link => {
-            link.classList.remove('ativo');
-        });
+        document.querySelectorAll('.link-categoria').forEach(link => link.classList.remove('ativo'));
         elementoClicado.classList.add('ativo');
     }
 
-    // 2. Gere os dados: Filtra e redesenha a vitrine
     if (categoriaDesejada === 'TODAS') {
         renderizarProdutos(todosOsProdutos);
     } else {
@@ -131,98 +124,134 @@ function filtrarPorCategoria(categoriaDesejada, elementoClicado) {
     }
 }
 
-// Adiciona o item na lista e abre a barra lateral
-function adicionarAoCarrinho(id, nome, preco, imagem) {
-    itensCarrinho.push({ id, nome, preco, imagem });
+// ==========================================
+// CARRINHO DE COMPRAS
+// ==========================================
+function adicionarAoCarrinho(id, nome, preco, imagem, quantidadeDesejada = 1) {
+    const itemExistente = itensCarrinho.find(item => item.nome === nome);
+
+    if (itemExistente) {
+        itemExistente.quantidade += quantidadeDesejada;
+    } else {
+        itensCarrinho.push({ id, nome, preco, imagem, quantidade: quantidadeDesejada });
+    }
+
+    localStorage.setItem('carrinhoMonkeys', JSON.stringify(itensCarrinho));
     renderizarCarrinho();
     abrirSidebar();
 }
 
-// Desenha os itens dentro da barra lateral e soma o total
+function alterarQuantidade(index, mudanca) {
+    itensCarrinho[index].quantidade += mudanca;
+    
+    if (itensCarrinho[index].quantidade <= 0) {
+        removerDoCarrinho(index);
+    } else {
+        localStorage.setItem('carrinhoMonkeys', JSON.stringify(itensCarrinho));
+        renderizarCarrinho();
+    }
+}
+
+function removerDoCarrinho(index) {
+    itensCarrinho.splice(index, 1);
+    localStorage.setItem('carrinhoMonkeys', JSON.stringify(itensCarrinho));
+    renderizarCarrinho();
+}
+
 function renderizarCarrinho() {
+    const container = document.getElementById('itens-sidebar');
+    const totalContainer = document.getElementById('total-sidebar');
+    if(!container || !totalContainer) return;
+
     let html = '';
     let total = 0;
 
     if (itensCarrinho.length === 0) {
-        document.getElementById('itens-sidebar').innerHTML = '<p style="text-align:center; color:gray; margin-top: 20px;">O seu carrinho está vazio.</p>';
-        document.getElementById('total-sidebar').innerText = 'R$ 0,00';
+        container.innerHTML = '<p style="text-align:center; color:gray; margin-top: 20px;">O seu carrinho está vazio.</p>';
+        totalContainer.innerText = 'R$ 0,00';
         return;
     }
 
     itensCarrinho.forEach((item, index) => {
-        total += item.preco;
+        const qtd = item.quantidade || 1;
+        const subtotal = item.preco * qtd;
+        total += subtotal;
+
         html += `
-            <div class="item-carrinho">
-                <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='img/placeholder.png'">
+            <div class="item-carrinho" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #222;">
+                <img src="${item.imagem}" alt="${item.nome}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;" onerror="this.src='img/placeholder.png'">
                 <div style="flex-grow: 1;">
-                    <p style="margin: 0; font-size: 14px;">${item.nome}</p>
+                    <p style="margin: 0; font-size: 14px; font-weight: bold;">${item.nome}</p>
                     <p style="margin: 5px 0 0; color: var(--price-green); font-weight: bold;">
-                        R$ ${item.preco.toFixed(2).replace('.', ',')}
+                        R$ ${subtotal.toFixed(2).replace('.', ',')}
                     </p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                        <button onclick="alterarQuantidade(${index}, -1)" style="background: #222; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold;">-</button>
+                        <span style="font-size: 14px;">${qtd}</span>
+                        <button onclick="alterarQuantidade(${index}, 1)" style="background: #222; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
                 </div>
-                <button onclick="removerDoCarrinho(${index})" style="background: transparent; border: none; color: var(--btn-red); cursor: pointer; font-size: 16px;">
+                <button onclick="removerDoCarrinho(${index})" style="background: transparent; border: none; color: var(--brand-red, #e60000); cursor: pointer; font-size: 18px;" title="Remover Peça">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         `;
     });
 
-    document.getElementById('itens-sidebar').innerHTML = html;
-    document.getElementById('total-sidebar').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    container.innerHTML = html;
+    totalContainer.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
 }
 
-// Remove o item e atualiza o visual da barra
-function removerDoCarrinho(index) {
-    itensCarrinho.splice(index, 1);
-    renderizarCarrinho();
-}
-
-// Abre a barra lateral
 function abrirSidebar() {
     document.getElementById('carrinho-sidebar').classList.add('aberto');
     document.getElementById('carrinho-overlay').style.display = 'block';
 }
 
-// Fecha a barra lateral
 function fecharCarrinhos() {
     document.getElementById('carrinho-sidebar').classList.remove('aberto');
     document.getElementById('carrinho-overlay').style.display = 'none';
 }
 
+// ==========================================
+// API: CHECKOUT
+// ==========================================
 async function finalizarPedido() {
     if (itensCarrinho.length === 0) {
-        alert("O seu carrinho está vazio.");
+        mostrarNotificacao("O seu carrinho está vazio.", "erro");
         return;
     }
 
-    // 1. VERIFICA SE O CLIENTE ESTÁ LOGADO
     const usuarioJSON = localStorage.getItem('usuarioLogado');
 
-    // Se não houver dados salvos, bloqueia a compra e manda para o login
     if (!usuarioJSON) {
-        mostrarNotificacao("Por favor, faça login ou crie uma conta para finalizar a sua encomenda.");
+        mostrarNotificacao("Faça login para finalizar a encomenda.", "erro");
         window.location.href = 'login.html';
-        return; // Para a função aqui
+        return; 
     }
 
-    // Desempacota os dados do cliente que o login.js guardou
     const usuarioLogado = JSON.parse(usuarioJSON);
-    const idDoClienteLogado = usuarioLogado.id;
-
-    // Calcula o total e formata os itens para o Java
     let total = 0;
-    const itensFormatados = itensCarrinho.map(item => {
-        total += item.preco;
-        return {
-            produtoId: item.id,
-            quantidade: 1, 
-            precoUnitario: item.preco
-        };
+    const mapaItens = {};
+
+    itensCarrinho.forEach(item => {
+        const qtd = item.quantidade || 1;
+        total += (item.preco * qtd);
+        
+        if (mapaItens[item.id]) {
+            mapaItens[item.id].quantidade += qtd;
+        } else {
+            mapaItens[item.id] = { 
+                produtoId: item.id, 
+                quantidade: qtd, 
+                precoUnitario: item.preco 
+            };
+        }
     });
 
-    // 2. MONTA O PEDIDO COM O ID REAL
+    const itensFormatados = Object.values(mapaItens);
+
     const payload = {
-        clienteId: idDoClienteLogado, // Substituímos o "1" pelo ID de quem fez login
+        clienteId: usuarioLogado.id, 
         valorTotal: total,
         itens: itensFormatados
     };
@@ -230,22 +259,21 @@ async function finalizarPedido() {
     try {
         const resposta = await fetch('http://localhost:8080/api/pedidos', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
         if (resposta.ok) {
             mostrarNotificacao("🚀 Encomenda finalizada com sucesso!", "sucesso"); 
             itensCarrinho = []; 
+            localStorage.setItem('carrinhoMonkeys', JSON.stringify(itensCarrinho));
             renderizarCarrinho(); 
             fecharCarrinhos();
         } else {
-            mostrarNotificacao("⚠️ Falha ao processar encomenda.");
+            mostrarNotificacao("⚠️ Falha ao processar encomenda.", "erro");
         }
     } catch (erro) {
         console.error(erro);
-        mostrarNotificacao("❌ Erro de conexão com o Servidor.");
+        mostrarNotificacao("❌ Erro de conexão com o Servidor.", "erro");
     }
 }

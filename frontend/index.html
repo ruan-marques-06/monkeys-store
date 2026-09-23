@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkeys Store</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Coloque isto junto aos outros links de CSS no <head> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
@@ -27,23 +25,22 @@
     <div class="main-container">
         
         <!-- Menu Lateral -->
-        <!-- BASTA COPIAR E COLAR ISTO NO LUGAR DO SEU MENU ANTIGO -->
-            <aside class="sidebar-categorias">
-                <!-- Adicionámos um título elegante para a secção -->
-                <h3 class="titulo-sidebar">Categorias</h3>
-                <ul class="menu-categorias" id="lista-categorias">
-                    <li><a href="#" class="link-categoria">A carregar categorias...</a></li>
-                </ul>
-            </aside>
+        <aside class="sidebar-categorias">
+            <h3 class="titulo-sidebar">Categorias</h3>
+            <ul class="menu-categorias" id="lista-categorias">
+                <li><a href="#" class="link-categoria">A carregar categorias...</a></li>
+            </ul>
+        </aside>
+
         <!-- Vitrine de Produtos -->
         <main class="content">
             <div class="product-grid">
-                <!-- O app.js vai injetar os cartões aqui dentro -->
+                <!-- Conteúdo injetado via app.js -->
             </div>
         </main>
     </div>
 
-    <!-- Carrinho em Barra Lateral -->
+    <!-- Sidebar do Carrinho -->
     <div id="carrinho-sidebar" class="carrinho-sidebar">
         <div class="carrinho-header">
             <h2>MEU CARRINHO</h2>
@@ -55,13 +52,10 @@
             <button class="btn-cart" onclick="finalizarPedido()" style="width: 100%; margin-top: 10px;">FINALIZAR ENCOMENDA</button>
         </div>
     </div>
-
-    <!-- Fundo escuro para a Sidebar -->
+    
     <div id="carrinho-overlay" class="carrinho-overlay" onclick="fecharCarrinhos()"></div>
 
-    <!-- Script de automação -->
-    <script src="app.js"></script>
-    <!-- Coloque isto antes do seu script principal (ex: antes do <script src="app.js"></script>) -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
