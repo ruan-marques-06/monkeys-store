@@ -58,7 +58,7 @@ document.getElementById('form-login').addEventListener('submit', async function(
             }
 
         } else {
-            mostrarNotificacao('❌ E-mail ou senha incorretos!');
+            mostrarNotificacao('E-mail ou senha incorretos!');
             botao.textContent = 'Entrar';
             botao.disabled = false;
         }

@@ -200,6 +200,12 @@ function renderizarCarrinho() {
 
     container.innerHTML = html;
     totalContainer.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    const contador = document.getElementById('contador-carrinho');
+    if (contador) {
+        const totalPecas = itensCarrinho.reduce((soma, item) => soma + (item.quantidade || 1), 0);
+        contador.innerText = totalPecas;
+        contador.style.display = totalPecas > 0 ? 'block' : 'none';
+    }
 }
 
 function abrirSidebar() {
@@ -277,3 +283,22 @@ async function finalizarPedido() {
         mostrarNotificacao("❌ Erro de conexão com o Servidor.", "erro");
     }
 }
+
+const inputPesquisa = document.getElementById('barra-pesquisa');
+
+    if (inputPesquisa) {
+        inputPesquisa.addEventListener('input', function(evento) {
+            const termoDigitado = evento.target.value.toLowerCase();
+            
+            // Remove a marcação vermelha do menu lateral de categorias, pois agora é uma busca livre
+            document.querySelectorAll('.link-categoria').forEach(link => link.classList.remove('ativo'));
+
+            // Filtra pelo Nome do Produto OU pela Categoria
+            const produtosFiltrados = todosOsProdutos.filter(produto => 
+                produto.nome.toLowerCase().includes(termoDigitado) || 
+                (produto.categoria && produto.categoria.toLowerCase().includes(termoDigitado))
+            );
+            
+            renderizarProdutos(produtosFiltrados);
+        });
+    }
