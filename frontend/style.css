@@ -2,9 +2,9 @@
 :root {
     --bg-color: #050505;
     --border-color: #1a1a2e;
-    --brand-purple: #9b59b6;
-    --price-green: #00ff00;
-    --btn-red: #ff0000;
+    --brand-purple: #4a01c1;
+    --price-green: #ffffff;
+    --btn-red: #4a01c1;
     --text-white: #ffffff;
 }
 
@@ -24,27 +24,39 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 40px;
+    padding: 20px 40px;
     border-bottom: 2px solid var(--border-color);
     position: relative;
+    
+    /* Imagem de Fundo */
+    background-image: url('img/Design\ sem\ nome.jpg'); /* Confirme o caminho/nome do ficheiro */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 180px; /* Altura ideal para exibir os grafites laterais */
 }
 
-.logo-container {
-    text-align: center;
-}
-
+/* Ajustes na Logo e Sombra Neon */
 .logo {
-    width: 150px;
+    width: 250px;
     border-radius: 50%;
+    filter: drop-shadow(0 0 12px rgba(130, 10, 209, 0.8)); /* Glow Roxo Neon */
+    transition: transform 0.3s ease;
 }
 
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Ajuste dos Ícones para destacar sobre o fundo escuro */
 .header-icons {
     position: absolute;
-    right: 40px;
+    right: 50px;
     font-size: 24px;
-    color: var(--brand-purple);
+    color: var(--price-green); /* Verde Neon para combinar com os grafites */
     display: flex;
-    gap: 20px;
+    gap: 50px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.9));
 }
 
 /* Layout Principal */
@@ -104,7 +116,7 @@ body {
 }
 
 .image-wrapper {
-    background-color: #911e8b;
+    background-color: #4a01c1;
     border-radius: 20px;
     overflow: hidden;
     padding: 3px;

@@ -30,6 +30,18 @@ public class Pedido {
     @Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
     private BigDecimal valorTotal;
 
+    @Column(name = "cep_entrega")
+    private String cepEntrega;
+
+    @Column(name = "rua_entrega")
+    private String ruaEntrega;
+
+    @Column(name = "numero_entrega")
+    private String numeroEntrega;
+
+    @Column(name = "cidade_entrega")
+    private String cidadeEntrega;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 
@@ -81,6 +93,38 @@ public class Pedido {
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getCepEntrega() {
+        return cepEntrega;
+    }
+
+    public void setCepEntrega(String cepEntrega) {
+        this.cepEntrega = cepEntrega;
+    }
+
+    public String getRuaEntrega() {
+        return ruaEntrega;
+    }
+
+    public void setRuaEntrega(String ruaEntrega) {
+        this.ruaEntrega = ruaEntrega;
+    }
+
+    public String getNumeroEntrega() {
+        return numeroEntrega;
+    }
+
+    public void setNumeroEntrega(String numeroEntrega) {
+        this.numeroEntrega = numeroEntrega;
+    }
+
+    public String getCidadeEntrega() {
+        return cidadeEntrega;
+    }
+
+    public void setCidadeEntrega(String cidadeEntrega) {
+        this.cidadeEntrega = cidadeEntrega;
     }
 
     public List<ItemPedido> getItens() {

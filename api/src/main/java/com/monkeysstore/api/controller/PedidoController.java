@@ -3,6 +3,7 @@ package com.monkeysstore.api.controller;
 import com.monkeysstore.api.dto.PedidoDTO;
 import com.monkeysstore.api.dto.PedidoResumoDTO;
 import com.monkeysstore.api.dto.ItemPedidoDTO;
+import com.monkeysstore.api.dto.ItemPedidoResumoDTO;
 import com.monkeysstore.api.model.Cliente;
 import com.monkeysstore.api.model.ItemPedido;
 import com.monkeysstore.api.model.ItemPedidoId;
@@ -46,6 +47,10 @@ public class PedidoController {
             // 2. Criar a estrutura principal do Pedido
             Pedido pedido = new Pedido();
             pedido.setCliente(cliente);
+            pedido.setCepEntrega(cliente.getCep());
+            pedido.setRuaEntrega(cliente.getRua());
+            pedido.setNumeroEntrega(cliente.getNumero());
+            pedido.setCidadeEntrega(cliente.getCidade());
             pedido.setDataEmissao(LocalDateTime.now());
             pedido.setStatus("AGUARDANDO PAGAMENTO");
             pedido.setValorTotal(pedidoDTO.getValorTotal());
@@ -92,6 +97,22 @@ public class PedidoController {
             dto.setDataEmissao(p.getDataEmissao());
             dto.setStatus(p.getStatus());
             dto.setValorTotal(p.getValorTotal());
+            dto.setCep(p.getCepEntrega());
+            dto.setRua(p.getRuaEntrega());
+            dto.setNumero(p.getNumeroEntrega());
+            dto.setCidade(p.getCidadeEntrega());
+            List<ItemPedidoResumoDTO> itensResumo = new ArrayList<>();
+            if (p.getItens() != null) {
+                for (ItemPedido item : p.getItens()) {
+                    ItemPedidoResumoDTO itemDto = new ItemPedidoResumoDTO();
+                    itemDto.setNomeProduto(item.getProduto() != null ? item.getProduto().getNome() : "Produto indisponível");
+                    itemDto.setQuantidade(item.getQuantidade());
+                    itemDto.setPrecoUnitario(item.getPrecoUnitario());
+                    itemDto.setSubtotal(item.getPrecoUnitario().multiply(java.math.BigDecimal.valueOf(item.getQuantidade())));
+                    itensResumo.add(itemDto);
+                }
+            }
+            dto.setItens(itensResumo);
             
             resumoList.add(dto);
         }

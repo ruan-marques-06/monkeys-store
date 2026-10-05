@@ -2,6 +2,12 @@
 let todasAsEncomendas = []; 
 let filtroAtual = 'TODOS';
 
+function escaparHtml(valor) {
+    return String(valor ?? '').replace(/[&<>"']/g, caractere => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[caractere]);
+}
+
 document.addEventListener('DOMContentLoaded', carregarPedidos);
 
 // Função mágica para mostrar notificações elegantes
@@ -33,7 +39,7 @@ async function carregarPedidos() {
     const tbody = document.getElementById('tabela-pedidos-body');
     if (!tbody) return;
 
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">A carregar encomendas...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px;">A carregar encomendas...</td></tr>';
 
     try {
         const resposta = await fetch('http://localhost:8080/api/pedidos');
@@ -47,7 +53,7 @@ async function carregarPedidos() {
         atualizarMetricas();
     } catch (erro) {
         console.error(erro);
-        tbody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center; padding: 20px;">Erro de conexão com o servidor.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="color:red; text-align:center; padding: 20px;">Erro de conexão com o servidor.</td></tr>';
     }
 }
 
@@ -63,7 +69,7 @@ function renderizarTabela() {
     }
 
     if (encomendasParaMostrar.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px; color: #888;">Nenhuma encomenda encontrada para este filtro.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px; color: #888;">Nenhuma encomenda encontrada para este filtro.</td></tr>';
         return;
     }
 
@@ -77,6 +83,13 @@ function renderizarTabela() {
         if(pedido.status === 'CANCELADO') corStatus = '#ff3333'; // Vermelho
         if(pedido.status === 'AGUARDANDO PAGAMENTO') corStatus = '#ffcc00'; // Amarelo
 
+        const itensHtml = (pedido.itens || []).map(item =>
+            `<li>${escaparHtml(item.nomeProduto)} — ${item.quantidade} un. × R$ ${Number(item.precoUnitario || 0).toFixed(2).replace('.', ',')}</li>`
+        ).join('');
+        const enderecoPartes = [pedido.rua, pedido.numero, pedido.cidade].filter(Boolean);
+        const endereco = enderecoPartes.length ? enderecoPartes.join(', ') : 'Endereço não informado';
+        const entregaHtml = `${escaparHtml(endereco)}${pedido.cep ? ` — CEP ${escaparHtml(pedido.cep)}` : ''}`;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>#${pedido.id}</td>
@@ -84,6 +97,17 @@ function renderizarTabela() {
             <td>${dataFormatada}</td>
             <td style="color: ${corStatus}; font-weight: bold;">${pedido.status}</td>
             <td style="color: #00ff88; font-weight: bold;">R$ ${pedido.valorTotal.toFixed(2).replace('.', ',')}</td>
+            <td>
+                <details>
+                    <summary style="cursor: pointer; color: #00ff88;">Ver detalhes</summary>
+                    <div style="min-width: 220px; padding: 8px 0; color: #ddd;">
+                        <strong>Produtos</strong>
+                        ${itensHtml ? `<ul style="margin: 6px 0 12px; padding-left: 20px;">${itensHtml}</ul>` : '<p>Itens não disponíveis.</p>'}
+                        <strong>Entrega</strong>
+                        <p style="margin: 6px 0;">${entregaHtml}</p>
+                    </div>
+                </details>
+            </td>
             <td>
                 <button onclick="atualizarStatusPedido(${pedido.id}, 'ENVIADO')" class="btn-acao" style="border-color: #00ff88; color: #00ff88; margin-right: 5px;" title="Marcar como Enviado"><i class="fas fa-check"></i></button>
                 <button onclick="atualizarStatusPedido(${pedido.id}, 'CANCELADO')" class="btn-acao" style="border-color: #ff3333; color: #ff3333;" title="Cancelar Encomenda"><i class="fas fa-times"></i></button>
