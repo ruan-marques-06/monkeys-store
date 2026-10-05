@@ -2,6 +2,7 @@ package com.monkeysstore.api.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PedidoResumoDTO {
 
@@ -10,6 +11,11 @@ public class PedidoResumoDTO {
     private LocalDateTime dataEmissao;
     private String status;
     private BigDecimal valorTotal;
+    private String cep;
+    private String rua;
+    private String numero;
+    private String cidade;
+    private List<ItemPedidoResumoDTO> itens;
 
     // --- GETTERS E SETTERS ---
 
@@ -52,4 +58,15 @@ public class PedidoResumoDTO {
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
+
+    public String getCep() { return cep; }
+    public void setCep(String cep) { this.cep = cep; }
+    public String getRua() { return rua; }
+    public void setRua(String rua) { this.rua = rua; }
+    public String getNumero() { return numero; }
+    public void setNumero(String numero) { this.numero = numero; }
+    public String getCidade() { return cidade; }
+    public void setCidade(String cidade) { this.cidade = cidade; }
+    public List<ItemPedidoResumoDTO> getItens() { return itens; }
+    public void setItens(List<ItemPedidoResumoDTO> itens) { this.itens = itens; }
 }
